@@ -2,11 +2,9 @@ package com.gmail.pashasimonpure.controller.filter;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,15 +14,13 @@ import org.apache.logging.log4j.Logger;
 
 import static com.gmail.pashasimonpure.controller.constant.RoleConstant.*;
 
-public class LoginFilter implements Filter {
+public class LoginFilter extends HttpFilter {
 
     private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) resp;
         HttpSession session = request.getSession();
 
         String role = (String) session.getAttribute("role");
@@ -42,7 +38,7 @@ public class LoginFilter implements Filter {
 
         } else {
 
-            chain.doFilter(req, resp);
+            chain.doFilter(request, response);
 
         }
 
